@@ -111,7 +111,7 @@ class SaveAnilistMangas extends Command
             /** @var Manga $mangaObject */
             $mangaObject = $mangaCollection->firstWhere('anilist_id', $manga['id']);
             if (!$mangaObject) {
-                dd($manga);
+//                dd($manga);
             }
             $mangaId = $mangaObject->id;
             foreach ($manga['genres'] as $genre) {
@@ -121,6 +121,10 @@ class SaveAnilistMangas extends Command
                 ];
             }
             foreach ($manga['tags'] as $tag) {
+                $tagObject = $mangaCollection->firstWhere('anilist_id', $tag['id']);
+                if (!$tagObject) {
+                    continue;
+                }
                 $mangaTagRelations[] = [
                     'manga_id' => $mangaId,
                     'tag_id' => $this->tags->firstWhere('name', $tag['name'])->id,
