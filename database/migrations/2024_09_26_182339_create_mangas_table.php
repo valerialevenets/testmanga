@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('mangas', function (Blueprint $table) {
             $table->id();
-            $table->integer('anilist_id')->unsigned()->index();
+            $table->integer('anilist_id')->unsigned()->index()->unique();
             $table->integer('idMal')->nullable()->unsigned()->index();
-            $table->string('name')->nullable(false)->unique();
+            $table->string('name')->nullable(false);
+            $table->string('format')->nullable(false);
             $table->json('titles')->nullable(false);
             $table->json('synonyms')->nullable();
             $table->boolean('is_adult')->default(false)->nullable(false);

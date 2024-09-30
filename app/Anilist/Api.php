@@ -2,6 +2,7 @@
 
 namespace App\Anilist;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 class Api
@@ -79,7 +80,7 @@ query ($id: Int) {
         ]);
         dd($response->body());
     }
-    public function fetchAllManga(int $page = 1, int $perPage = 50): array
+    public function fetchAllManga(int $page = 1, int $perPage = 50): Response
     {
         $query = $query = '
             query ($id: Int, $page: Int, $perPage: Int, $search: String) {
@@ -156,11 +157,10 @@ query ($id: Int) {
             "perPage" => $perPage,
         ];
 
-        $response = Http::post('https://graphql.anilist.co', [
+        return Http::post('https://graphql.anilist.co', [
             'query' => $query,
             'variables' => $variables,
         ]);
-        return json_decode($response->body(), true);
     }
 
     public function getTags(): array
